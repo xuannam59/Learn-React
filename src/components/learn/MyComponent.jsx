@@ -1,3 +1,6 @@
+// JSX : 1 parent
+// Fragment
+
 import "./style.css"
 
 const MyComponent = () => {

@@ -1,6 +1,14 @@
+import "./style.css"
+
 const MyComponent = () => {
   return (
-    <div>My Component</div>
+    <>
+      <div>Xuan Nam & update</div>
+      <div
+        style={{ borderRadius: "3px" }}
+        className="child"
+      >child</div>
+    </>
   );
 }
 

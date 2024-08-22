@@ -4,6 +4,10 @@ import "./components/todo/todo.css"
 import reactLogo from "./assets/react.svg"
 import { useState } from "react"
 
+const generateRandomNumber = (min, max) => {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
 const App = () => {
   const name = "Xuan Nam";
   const age = 22;
@@ -14,9 +18,13 @@ const App = () => {
     { id: 1, name: "Learn React" },
     { id: 2, name: "Watching Youtube" }
   ])
-
   const addNewTodo = (name) => {
-    alert(`Call me ${name} !`);
+    const newTodo = {
+      id: generateRandomNumber(1, 1000000),
+      name: name
+    }
+
+    setTodoList([...todoList, newTodo]);
   }
 
   return (

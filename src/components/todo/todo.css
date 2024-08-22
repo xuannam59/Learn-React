@@ -44,6 +44,11 @@ html {
   border-radius: 3px;
 }
 
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+}
+
 .todo-image {
   text-align: center;
   padding: 15px;

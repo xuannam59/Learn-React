@@ -9,14 +9,9 @@ const generateRandomNumber = (min, max) => {
 }
 
 const App = () => {
-  const name = "Xuan Nam";
-  const age = 22;
-  const data = {
-    address: "Bac Ninh",
-  }
   const [todoList, setTodoList] = useState([
-    { id: 1, name: "Learn React" },
-    { id: 2, name: "Watching Youtube" }
+    // { id: 1, name: "Learn React" },
+    // { id: 2, name: "Watching Youtube" }
   ])
   const addNewTodo = (name) => {
     const newTodo = {
@@ -35,9 +30,6 @@ const App = () => {
           addNewTodo={addNewTodo}
         />
         <TodoData
-          name={name}
-          age={age}
-          data={data}
           todoList={todoList}
         />
         <div className="todo-image">

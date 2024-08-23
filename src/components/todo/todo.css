@@ -47,6 +47,7 @@ html {
 .todo-item {
   display: flex;
   justify-content: space-between;
+  margin: 8px 0;
 }
 
 .todo-image {

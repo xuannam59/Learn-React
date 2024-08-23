@@ -9,10 +9,7 @@ const generateRandomNumber = (min, max) => {
 }
 
 const App = () => {
-  const [todoList, setTodoList] = useState([
-    // { id: 1, name: "Learn React" },
-    // { id: 2, name: "Watching Youtube" }
-  ])
+  const [todoList, setTodoList] = useState([])
   const addNewTodo = (name) => {
     const newTodo = {
       id: generateRandomNumber(1, 1000000),
@@ -21,7 +18,6 @@ const App = () => {
 
     setTodoList([...todoList, newTodo]);
   }
-
   return (
     <>
       <div className="todo-container">
@@ -29,12 +25,28 @@ const App = () => {
         <TodoNew
           addNewTodo={addNewTodo}
         />
-        <TodoData
-          todoList={todoList}
-        />
-        <div className="todo-image">
-          <img src={reactLogo} alt="Logo" className="logo" />
-        </div>
+
+        {todoList.length > 0 ?  /* Cách 1 */
+          <TodoData
+            todoList={todoList}
+          />
+          :
+          <div className="todo-image">
+            <img src={reactLogo} alt="Logo" className="logo" />
+          </div>
+        }
+
+        {/* Cách 2
+        {todoList.length > 0 &&
+          <TodoData
+            todoList={todoList}
+          />
+        }
+        {todoList.length === 0 &&
+          <div className="todo-image">
+            <img src={reactLogo} alt="Logo" className="logo" />
+          </div>
+        } */}
       </div>
     </>
   )

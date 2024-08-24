@@ -1,18 +1,22 @@
-html {
-  display: flex;
-  justify-content: center;
+.todo-container {
+  margin: 50px auto;
+  width: 600px;
 }
 
 .todo-title {
-  font-size: 32px;
-  padding: 26px;
-  color: rgb(19, 184, 41);
+  font-size: 35px;
+  margin: 15px 0;
+  color: orange;
   text-align: center;
+  font-weight: 600;
 }
 
 .todo-new {
-  margin-bottom: 16px;
-  text-align: center;
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+
 }
 
 .todo-new input {
@@ -38,10 +42,14 @@ html {
 }
 
 .todo-data {
+  margin-top: 20px;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  width: 600px;
-  padding: 12px;
-  border-radius: 3px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
 }
 
 .todo-item {
@@ -52,7 +60,7 @@ html {
 
 .todo-image {
   text-align: center;
-  padding: 15px;
+  margin-top: 15px;
 }
 
 .logo {

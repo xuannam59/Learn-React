@@ -4,8 +4,10 @@ const TodoNew = (props) => {
   const { addNewTodo } = props
   const [valueInput, setValueInput] = useState("XuanNam");
   const handleClick = () => {
-    addNewTodo(valueInput);
-    setValueInput("");
+    if (valueInput.length > 0) {
+      addNewTodo(valueInput);
+      setValueInput("");
+    }
   }
 
   const handleChange = (name) => {

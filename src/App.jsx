@@ -5,6 +5,7 @@ import reactLogo from "./assets/react.svg"
 import { useState } from "react"
 import Header from "./layouts/header"
 import Footer from "./layouts/footer"
+import { Outlet } from "react-router-dom"
 
 
 
@@ -62,6 +63,7 @@ const App = () => {
           </div>
         } */}
       </div>
+      <Outlet />
       <Footer />
     </>
   )

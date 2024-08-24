@@ -8,9 +8,12 @@ import {
 import LoginPage from './pages/login.jsx';
 import RegisterPage from './pages/register.jsx';
 import "./styles/global.css"
+import UserPage from './pages/user.jsx';
+import ProductPage from './pages/product.jsx';
 
 const router = createBrowserRouter([
   {
+
     path: "/",
     element: <App />
   },
@@ -21,6 +24,14 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <RegisterPage />
+  },
+  {
+    path: "/user",
+    element: <UserPage />
+  },
+  {
+    path: "/product",
+    element: <ProductPage />
   }
 ]);
 

@@ -8,7 +8,6 @@ const UserPage = () => {
 
   useEffect(() => {
     loadUser()
-    console.log("check 000");
   }, []);
   const loadUser = async () => {
     const res = await fetchAllUserApi();

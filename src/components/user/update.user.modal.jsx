@@ -14,7 +14,6 @@ const UpdateUserModal = (props) => {
     loadUser } = props;
 
   useEffect(() => {
-    console.log(">>>>Check data", dataUpdate);
     if (dataUpdate) {
       setId(dataUpdate._id);
       setFullName(dataUpdate.fullName);

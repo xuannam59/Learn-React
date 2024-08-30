@@ -11,6 +11,9 @@ const UserTable = (props) => {
     {
       title: 'Id',
       dataIndex: '_id',
+      render: (text) => {
+        return <a href='#'>{text}</a>
+      }
     },
     {
       title: 'FullName',

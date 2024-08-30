@@ -20,7 +20,7 @@ const UserForm = (props) => {
         description: "Success "
       })
       resetAndCloseModal();
-      loadUser();
+      await loadUser();
     } else {
       notification.error({
         message: "Error create user",

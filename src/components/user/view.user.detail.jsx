@@ -1,9 +1,16 @@
-import { Button, Drawer } from "antd"
+import { Button, Drawer, notification } from "antd"
 import { useEffect, useState } from "react";
+import { handleUploadFile, updateUserAvatarApi } from "../../services/api.service";
 
 
 const ViewUserDetail = (props) => {
-  const { isDetailOpen, setIsDetailOpen, dataDetail, setDataDetail } = props;
+  const {
+    isDetailOpen,
+    setIsDetailOpen,
+    dataDetail,
+    setDataDetail,
+    loadUser
+  } = props;
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -18,6 +25,45 @@ const ViewUserDetail = (props) => {
     const file = event.target.files[0];
     setSelectedFile(file);
     setPreview(URL.createObjectURL(file));
+  }
+
+  const handleUpLoadIamge = async () => {
+    // step 1 : Upload file
+    const resUpload = await handleUploadFile(selectedFile, "avatar");
+    if (resUpload.data) {
+      const newAvatar = resUpload.data.fileUploaded;
+      // step 2 : Upload user
+      const resUpdateAvatar = await updateUserAvatarApi(
+        newAvatar,
+        dataDetail._id,
+        dataDetail.fullName,
+        dataDetail.phone
+      );
+
+      if (resUpdateAvatar.data) {
+        setIsDetailOpen(false);
+        setSelectedFile(null);
+        setPreview(null);
+        await loadUser();
+
+        notification.success({
+          message: "Success",
+          description: "Updated avatar successfully"
+        });
+      } else {
+        notification.error({
+          message: "Error",
+          description: JSON.stringify(resUpdateAvatar.message)
+        });
+      }
+
+    } else {
+      notification.error({
+        message: "Error",
+        description: JSON.stringify(resUpload.message)
+      });
+    }
+
   }
 
   return (
@@ -40,7 +86,7 @@ const ViewUserDetail = (props) => {
           <p>Email: {dataDetail.email}</p>
           <br />
           <p>Phone number: {dataDetail.phone}</p>
-          <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+          <div style={{ display: "flex", gap: "20px", alignItems: "center", marginBottom: "15px" }}>
             <p>Avatar : </p>
             <div style={{
               height: "100px",
@@ -77,23 +123,24 @@ const ViewUserDetail = (props) => {
               </>
             }
           </div>
-          <div>
-            {!preview ?
-              <label
-                htmlFor="btnUpload"
-                style={{
-                  display: "block",
-                  width: "fit-content",
-                  marginTop: "15px",
-                  background: "#1677ff",
-                  color: "#fff",
-                  padding: "6px 12px",
-                  borderRadius: "5px",
-                  cursor: "pointer"
-                }}
-              >Upload</label>
-              :
-              <Button type="primary">Save</Button>
+          <div style={{ display: "flex", gap: "12px" }}>
+            <label
+              htmlFor="btnUpload"
+              style={{
+                display: "block",
+                width: "fit-content",
+                background: "#2cae6b",
+                color: "#fff",
+                padding: "6px 8px",
+                borderRadius: "6px",
+                cursor: "pointer"
+              }}
+            >Upload</label>
+            {preview &&
+              <Button
+                type="primary"
+                onClick={() => handleUpLoadIamge()}
+              >Save</Button>
             }
             <input
               type="file"

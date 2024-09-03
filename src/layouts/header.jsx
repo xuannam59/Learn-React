@@ -1,17 +1,39 @@
-import { Link } from "react-router-dom";
-import { Menu } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, message } from "antd";
 import { AliwangwangOutlined, BookOutlined, HomeOutlined, LoginOutlined, LogoutOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { useContext, useState } from "react";
 import { AuthContext } from "../components/context/auth.context";
+import { logoutUserApi } from "../services/api.service";
 
 const Header = () => {
   const [current, setCurrent] = useState('home');
-  const { user } = useContext(AuthContext);
-  console.log(user);
+  const { user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const onClick = (e) => {
     setCurrent(e.key);
   };
+
+  const handleClick = async () => {
+    const res = await logoutUserApi();
+
+    if (res.data) {
+      // clear data
+      localStorage.removeItem("access_token");
+      setUser({
+        id: "",
+        email: "",
+        phone: "",
+        fullName: "",
+        role: "",
+        avatar: "",
+      });
+      message.success(res.data);
+
+      // redirect
+      navigate("/");
+    }
+  }
 
   const items = [
     {
@@ -40,7 +62,7 @@ const Header = () => {
       icon: <AliwangwangOutlined />,
       children: [
         {
-          label: "Logout",
+          label: <span onClick={handleClick}>Logout</span>,
           key: 'register',
           icon: <LogoutOutlined />
         }

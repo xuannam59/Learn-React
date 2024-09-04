@@ -2,12 +2,16 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button, Table } from "antd";
 import { useEffect, useState } from "react";
 import { fetchAllBookApi } from "../../services/api.service";
+import DetailBook from "./book.detail";
 
 const BookTable = (props) => {
   const [dataBooks, setDataBooks] = useState([]);
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [total, setTotal] = useState(0);
+
+  const [isOpenDetail, setIsOpenDetail] = useState(false);
+  const [dataDetail, setDataDetail] = useState({});
 
 
   useEffect(() => {
@@ -23,6 +27,12 @@ const BookTable = (props) => {
       setTotal(res.data.meta.total)
     }
   }
+
+  const handleClickDetail = (data) => {
+    setDataDetail(data);
+    setIsOpenDetail(true);
+  }
+
   const columns = [
     {
       title: "STT",
@@ -31,7 +41,8 @@ const BookTable = (props) => {
     {
       title: 'id',
       dataIndex: '_id',
-      render: (text) => <a>{text}</a>,
+      render: (text, record) => <a onClick={() => handleClickDetail(record)}
+      >{text}</a>,
     },
     {
       title: 'Tiêu đề',
@@ -102,6 +113,12 @@ const BookTable = (props) => {
           showTotal: (total, range) => { return (<div> {range[0]}-{range[1]} trên {total} rows</div>) },
         }}
         onChange={onChange}
+      />
+      <DetailBook
+        isOpenDetail={isOpenDetail}
+        setIsOpenDetail={setIsOpenDetail}
+        dataDetail={dataDetail}
+        setDataDetail={setDataBooks}
       />
     </>
   );

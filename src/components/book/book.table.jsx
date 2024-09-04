@@ -3,6 +3,7 @@ import { Button, Table } from "antd";
 import { useEffect, useState } from "react";
 import { fetchAllBookApi } from "../../services/api.service";
 import DetailBook from "./book.detail";
+import CreateBook from "./book.create";
 
 const BookTable = (props) => {
   const [dataBooks, setDataBooks] = useState([]);
@@ -10,8 +11,12 @@ const BookTable = (props) => {
   const [pageSize, setPageSize] = useState(5);
   const [total, setTotal] = useState(0);
 
+  // Detail
   const [isOpenDetail, setIsOpenDetail] = useState(false);
   const [dataDetail, setDataDetail] = useState({});
+
+  // Create
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
 
   useEffect(() => {
@@ -28,9 +33,15 @@ const BookTable = (props) => {
     }
   }
 
+  // Handle the click event to see Details
   const handleClickDetail = (data) => {
     setDataDetail(data);
     setIsOpenDetail(true);
+  }
+
+  // Handle the click event to open the create modal
+  const showModal = () => {
+    setIsModalOpen(true);
   }
 
   const columns = [
@@ -99,7 +110,7 @@ const BookTable = (props) => {
     <>
       <div style={{ display: "flex", justifyContent: "space-between", margin: "20px 0" }}>
         <h3>Table book</h3>
-        <Button type="primary"> Create</Button>
+        <Button type="primary" onClick={showModal}> Create</Button>
       </div>
       <Table
         columns={columns}
@@ -119,6 +130,11 @@ const BookTable = (props) => {
         setIsOpenDetail={setIsOpenDetail}
         dataDetail={dataDetail}
         setDataDetail={setDataBooks}
+      />
+      <CreateBook
+        loadBook={loadBook}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
       />
     </>
   );

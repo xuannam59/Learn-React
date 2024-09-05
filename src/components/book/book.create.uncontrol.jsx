@@ -5,7 +5,7 @@ import { createBookApi, handleUploadFile } from "../../services/api.service";
 const CreateBookUnControl = (props) => {
   const {
     loadBook,
-    isModalOpen, setIsModalOpen
+    isModalCreateOpen, setIsModalCreateOpen
   } = props
 
   const [form] = Form.useForm();
@@ -27,7 +27,7 @@ const CreateBookUnControl = (props) => {
   }
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    setIsModalCreateOpen(false);
     setSelectedFile(null);
     setPreview(null);
     form.resetFields();
@@ -79,7 +79,7 @@ const CreateBookUnControl = (props) => {
     <>
       <Modal
         title="Create Book (UnControl)"
-        open={isModalOpen}
+        open={isModalCreateOpen}
         onOk={() => form.submit()}
         onCancel={handleCancel}
         maskClosable={false}

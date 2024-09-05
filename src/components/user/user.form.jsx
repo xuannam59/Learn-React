@@ -9,7 +9,7 @@ const UserForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalCreateOpen, setisModalCreateOpen] = useState(false);
 
 
   const handleSubmitBtn = async () => {
@@ -30,7 +30,7 @@ const UserForm = (props) => {
   }
 
   const resetAndCloseModal = () => {
-    setIsModalOpen(false);
+    setisModalCreateOpen(false);
     setFullName("");
     setEmail("");
     setPassword("");
@@ -43,12 +43,12 @@ const UserForm = (props) => {
         <h3>Table User</h3>
         <Button
           type="primary"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setisModalCreateOpen(true)}
         >Create User</Button>
       </div>
       <Modal
         title="Create User"
-        open={isModalOpen}
+        open={isModalCreateOpen}
         onOk={() => handleSubmitBtn()}
         onCancel={() => resetAndCloseModal()}
         okText={"CREATE"}

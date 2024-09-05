@@ -5,6 +5,7 @@ import { fetchAllBookApi } from "../../services/api.service";
 import DetailBook from "./book.detail";
 import CreateBook from "./book.create";
 import CreateBookUnControl from "./book.create.uncontrol";
+import EditBook from "./book.edit";
 
 const BookTable = (props) => {
   const [dataBooks, setDataBooks] = useState([]);
@@ -17,8 +18,11 @@ const BookTable = (props) => {
   const [dataDetail, setDataDetail] = useState({});
 
   // Create
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
 
+  // Update
+  const [dataUpdate, setDataUpdate] = useState(null);
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
 
   useEffect(() => {
     loadBook();
@@ -42,7 +46,7 @@ const BookTable = (props) => {
 
   // Handle the click event to open the create modal
   const showModal = () => {
-    setIsModalOpen(true);
+    setIsModalCreateOpen(true);
   }
 
   const columns = [
@@ -84,7 +88,17 @@ const BookTable = (props) => {
         return (
           <>
             <div style={{ display: "flex", gap: "20px" }}>
-              <EditOutlined />
+              <EditOutlined
+                style={{
+                  color: "orange",
+                  cursor: "pointer",
+                  fontSize: "18px"
+                }}
+                onClick={() => {
+                  setIsModalEditOpen(true)
+                  setDataUpdate(record);
+                }}
+              />
               <DeleteOutlined />
             </div>
           </>
@@ -134,14 +148,21 @@ const BookTable = (props) => {
       />
       {/* <CreateBook
         loadBook={loadBook}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
+        isModalCreateOpen={isModalCreateOpen}
+        setIsModalCreateOpen={setIsModalCreateOpen}
       /> */}
 
       <CreateBookUnControl
         loadBook={loadBook}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
+        isModalCreateOpen={isModalCreateOpen}
+        setIsModalCreateOpen={setIsModalCreateOpen}
+      />
+      <EditBook
+        loadBook={loadBook}
+        dataUpdate={dataUpdate}
+        setDataUpdate={setDataUpdate}
+        isModalEditOpen={isModalEditOpen}
+        setIsModalEditOpen={setIsModalEditOpen}
       />
     </>
   );

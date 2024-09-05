@@ -34,7 +34,6 @@ const DetailBook = (props) => {
           width: "250px",
           marginTop: "10px",
           borderRadius: "5px",
-          border: "1px solid #ccc",
           padding: "16px 0"
         }}>
           <img

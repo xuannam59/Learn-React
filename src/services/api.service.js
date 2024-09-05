@@ -110,10 +110,25 @@ const createBookApi = (thumbnail, mainText, author, price, quantity, category) =
   return axios.post(URL_BACKEND, data)
 }
 
+const updateBookApi = (id, thumbnail, mainText, author, price, quantity, category) => {
+  const URL_BACKEND = `/api/v1/book`;
+  const data = {
+    _id: id,
+    thumbnail: thumbnail,
+    mainText: mainText,
+    author: author,
+    price: price,
+    quantity: quantity,
+    category: category
+  }
+
+  return axios.put(URL_BACKEND, data)
+}
+
 export {
   createUserApi, updateUserApi, fetchAllUserApi,
   deleteUserApi, handleUploadFile, updateUserAvatarApi,
   registerUserApi, loginUserApi, getAccountApi,
   logoutUserApi,
-  fetchAllBookApi, createBookApi
+  fetchAllBookApi, createBookApi, updateBookApi
 }

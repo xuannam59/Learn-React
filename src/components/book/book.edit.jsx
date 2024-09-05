@@ -1,36 +1,69 @@
-import { Input, InputNumber, message, Modal, notification, Select } from "antd";
-import { useState } from "react";
-import { createBookApi, handleUploadFile } from "../../services/api.service";
+import { Input, InputNumber, Modal, notification, Select } from "antd";
+import { useEffect, useState } from "react";
+import { handleUploadFile, updateBookApi } from "../../services/api.service";
 
-const CreateBook = (props) => {
+const EditBook = (props) => {
   const {
     loadBook,
-    isModalCreateOpen, setIsModalCreateOpen } = props;
-
+    dataUpdate, setDataUpdate,
+    isModalEditOpen, setIsModalEditOpen
+  } = props
+  // Data
+  const [id, setId] = useState("");
   const [mainText, setMainText] = useState("");
   const [author, setAuthor] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [category, setCategory] = useState("");
-
-  // preview image 
+  // Preview
   const [preview, setPreview] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
+
+  useEffect(() => {
+    if (dataUpdate && dataUpdate._id) {
+      setId(dataUpdate._id);
+      setMainText(dataUpdate.mainText);
+      setAuthor(dataUpdate.author);
+      setPrice(dataUpdate.price);
+      setQuantity(dataUpdate.quantity);
+      setCategory(dataUpdate.category);
+      setPreview(`${import.meta.env.VITE_URL_BACKEND}/images/book/${dataUpdate.thumbnail}`);
+    }
+  }, [dataUpdate]);
+
+  const updateBook = async (newThumbnail) => {
+
+    console.log(newThumbnail);
+    const resBook = await updateBookApi(id, newThumbnail, mainText, author, price, quantity, category);
+    if (resBook.data) {
+      handleCancel();
+      await loadBook();
+      notification.success({
+        message: "Success",
+        description: "Update book success!"
+      });
+    } else {
+      notification.error({
+        message: "Error",
+        description: JSON.stringify(resBook.message)
+      });
+    }
+  }
+
   const handleOnChangeFile = (event) => {
-    if (!event.target.files || event.target.files.length === 0) {
-      setPreview(null);
+    if (!event.target.files || !event.target.files.length === 0) {
       setSelectedFile(null);
+      setPreview(`${import.meta.env.VITE_URL_BACKEND}/images/book/${dataUpdate.thumbnail}`);
     }
 
     const fileUpload = event.target.files[0];
     setSelectedFile(fileUpload);
     setPreview(URL.createObjectURL(fileUpload));
-
   }
 
   const handleCancel = () => {
-    setIsModalCreateOpen(false);
+    setId("");
     setMainText("");
     setAuthor("");
     setPrice("");
@@ -38,53 +71,60 @@ const CreateBook = (props) => {
     setCategory("");
     setPreview(null);
     setSelectedFile(null);
+    setDataUpdate(null);
+    setIsModalEditOpen(false);
   }
 
   const handleOk = async () => {
-    if (selectedFile === null) {
+    // không có ảnh preview + không có file => return
+    if (!preview && !selectedFile) {
       notification.error({
         message: "Error",
         description: "Please upload image files"
       })
       return;
     }
-    setIsModalCreateOpen(false);
-    const resUpload = await handleUploadFile(selectedFile, "book");
-    if (resUpload.data.fileUploaded) {
-      const file = resUpload.data.fileUploaded;
-      const resCreate = await createBookApi(file, mainText, author, price, quantity, category);
-      if (resCreate.data) {
-        notification.success({
-          message: "Success",
-          description: "Create book Success"
-        })
-        await loadBook();
-        handleCancel();
+
+    // có ảnh và không có file => không upload file
+    let newThumbnail = dataUpdate.thumbnail;
+
+    // có ảnh preview và có file => upload file
+    if (preview && selectedFile) {
+      const resUpdate = await handleUploadFile(selectedFile, "book");
+      if (resUpdate.data) {
+        //success
+        newThumbnail = resUpdate.data.fileUploaded;
       } else {
         notification.error({
           message: "Error",
-          description: JSON.stringify(resCreate.message)
+          description: JSON.stringify(resUpdate.message)
         })
+        return;
       }
-    } else {
-      notification.error({
-        message: "Error",
-        description: JSON.stringify(resUpload.message)
-      })
     }
+
+    // update book
+    await updateBook(newThumbnail);
   }
 
   return (
     <>
       <Modal
         title="Create Book"
-        open={isModalCreateOpen}
+        open={isModalEditOpen}
         onOk={handleOk}
         onCancel={handleCancel}
         maskClosable={false}
-        okText="CREATE"
+        okText="UPDATE"
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <div>
+            <label>Id</label>
+            <Input
+              value={id}
+              disabled
+            />
+          </div>
           <div>
             <label>Tiêu đề</label>
             <Input
@@ -149,7 +189,6 @@ const CreateBook = (props) => {
                 width: "150px",
                 marginTop: "10px",
                 borderRadius: "5px",
-                border: "1px solid #ccc",
                 padding: "16px 0"
               }}>
                 <img
@@ -185,7 +224,7 @@ const CreateBook = (props) => {
         </div>
       </Modal>
     </>
-  )
+  );
 }
 
-export default CreateBook;
+export default EditBook;

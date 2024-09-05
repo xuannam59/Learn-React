@@ -82,6 +82,7 @@ const CreateBook = (props) => {
         onOk={handleOk}
         onCancel={handleCancel}
         maskClosable={false}
+        okText="CREATE"
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           <div>

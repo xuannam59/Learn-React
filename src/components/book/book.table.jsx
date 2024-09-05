@@ -1,7 +1,7 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Table } from "antd";
+import { Button, notification, Popconfirm, Table } from "antd";
 import { useEffect, useState } from "react";
-import { fetchAllBookApi } from "../../services/api.service";
+import { deleteBookApi, fetchAllBookApi } from "../../services/api.service";
 import DetailBook from "./book.detail";
 import CreateBook from "./book.create";
 import CreateBookUnControl from "./book.create.uncontrol";
@@ -48,6 +48,23 @@ const BookTable = (props) => {
     // Handle the click event to open the create modal
     const showModal = () => {
         setIsModalCreateOpen(true);
+    }
+
+    // Handle the click event to deleted book
+    const handleDeleteBook = async (id) => {
+        const res = await deleteBookApi(id);
+        if (res.data) {
+            await loadBook();
+            notification.success({
+                message: "Delete",
+                description: "Delete book success"
+            });
+        } else {
+            notification.error({
+                message: "Error Delete",
+                description: JSON.stringify(res.message)
+            });
+        }
     }
 
     const columns = [
@@ -100,7 +117,21 @@ const BookTable = (props) => {
                                     setDataUpdate(record);
                                 }}
                             />
-                            <DeleteOutlined />
+                            <Popconfirm
+                                placement="leftTop"
+                                title="Delete the task"
+                                description="Are you sure to delete this task?"
+                                onConfirm={() => handleDeleteBook(record._id)}
+                                okText="Yes"
+                                cancelText="No"
+                            >
+                                <DeleteOutlined
+                                    style={{
+                                        color: "red",
+                                        cursor: "pointer",
+                                        fontSize: "18px"
+                                    }} />
+                            </Popconfirm>
                         </div>
                     </>
                 )

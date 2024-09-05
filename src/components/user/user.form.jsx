@@ -16,14 +16,14 @@ const UserForm = (props) => {
     const res = await createUserApi(fullName, email, password, phone);
     if (res.data) {
       notification.success({
-        message: "Create user",
+        message: "Create Success",
         description: "Success "
       })
       resetAndCloseModal();
       await loadUser();
     } else {
       notification.error({
-        message: "Error create user",
+        message: "Error creating user",
         description: JSON.stringify(res.message)
       });
     }

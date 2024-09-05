@@ -56,12 +56,12 @@ const CreateBookUnControl = (props) => {
         handleCancel();
         await loadBook();
         notification.success({
-          message: "Success",
+          message: "Create Success",
           description: " Create book success"
         });
       } else {
         notification.error({
-          message: "Error",
+          message: "Create Error",
           description: JSON.stringify(resCreate.message)
         });
       }

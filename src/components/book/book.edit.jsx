@@ -40,12 +40,12 @@ const EditBook = (props) => {
       handleCancel();
       await loadBook();
       notification.success({
-        message: "Success",
+        message: "Update Success",
         description: "Update book success!"
       });
     } else {
       notification.error({
-        message: "Error",
+        message: "Update Error",
         description: JSON.stringify(resBook.message)
       });
     }

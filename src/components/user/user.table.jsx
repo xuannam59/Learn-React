@@ -20,13 +20,13 @@ const UserTable = (props) => {
     const res = await deleteUserApi(id);
     if (res.data) {
       notification.success({
-        message: "Delete User",
-        description: "Success"
+        message: "Delete Success",
+        description: "Delete user success"
       })
       await loadUser();
     } else {
       notification.error({
-        message: "Delete User",
+        message: "Error Delete",
         description: "Error"
       })
     }

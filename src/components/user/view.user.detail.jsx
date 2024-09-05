@@ -47,7 +47,7 @@ const ViewUserDetail = (props) => {
         await loadUser();
 
         notification.success({
-          message: "Success",
+          message: "Success ",
           description: "Updated avatar successfully"
         });
       } else {

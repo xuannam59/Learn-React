@@ -27,14 +27,14 @@ const UpdateUserModal = (props) => {
     const res = await updateUserApi(id, fullName, phone);
     if (res.data) {
       notification.success({
-        message: "Update user",
-        description: "Success "
+        message: "Update Success",
+        description: "Update user success"
       })
       resetAndCloseModal();
       await loadUser();
     } else {
       notification.error({
-        message: "Error update user",
+        message: "User update error",
         description: JSON.stringify(res.message)
       });
     }

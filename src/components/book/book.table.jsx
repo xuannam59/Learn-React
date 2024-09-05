@@ -56,12 +56,12 @@ const BookTable = (props) => {
         if (res.data) {
             await loadBook();
             notification.success({
-                message: "Delete",
+                message: "Delete Success",
                 description: "Delete book success"
             });
         } else {
             notification.error({
-                message: "Error Delete",
+                message: "Delete Error",
                 description: JSON.stringify(res.message)
             });
         }

@@ -17,13 +17,13 @@ const RegisterPage = () => {
     );
     if (res.data) {
       notification.success({
-        message: "Success",
+        message: "Success Register",
         description: "Register Success"
       });
       navigate('/login');
     } else {
       notification.error({
-        message: "Error",
+        message: "Error Register",
         description: JSON.stringify(res.message)
       })
     }

@@ -55,14 +55,14 @@ const CreateBook = (props) => {
       const resCreate = await createBookApi(file, mainText, author, price, quantity, category);
       if (resCreate.data) {
         notification.success({
-          message: "Success",
+          message: "Create Success",
           description: "Create book Success"
         })
         await loadBook();
         handleCancel();
       } else {
         notification.error({
-          message: "Error",
+          message: "Create Error",
           description: JSON.stringify(resCreate.message)
         })
       }
